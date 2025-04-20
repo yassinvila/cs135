@@ -8,6 +8,7 @@ Description: Simple functions for time.
 Calculates minutes since midnight and interval between two times.
 meow
 meow
+meow
 */
 
 #include <iostream>
@@ -39,6 +40,7 @@ int minutesUntil(Time earlier, Time later);
 Time addMinutes(Time time0, int min);
 void printTimeSlot(TimeSlot ts);
 void printMovie(Movie mv);
+TimeSlot scheduleAfter(TimeSlot ts, Movie nextMovie);
 
 int main() {
     Time now;
@@ -106,4 +108,10 @@ void printTimeSlot(TimeSlot ts) {
     
     cout << "[starts at " << ts.startTime.h << ":" << ts.startTime.m << 
     ", ends by " << endTime.h << ":" << endTime.m << "]" << endl;
+}
+
+TimeSlot scheduleAfter(TimeSlot ts, Movie nextMovie) {
+    Time endTime = addMinutes(ts.startTime, ts.movie.duration);
+    TimeSlot meow {nextMovie, endTime};
+    return meow;
 }
