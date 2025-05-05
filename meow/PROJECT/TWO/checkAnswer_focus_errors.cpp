@@ -2,7 +2,7 @@
 Author: Yassin Vila
 Course: CSCI-135
 Instructor: Tong Yi
-Assignment: PROJECT 2B
+Assignment: PROJECT 2C
 
 In this project, we display questions and answer them. If the answer is correct, 
 we display true,otherwise, we display false. This project can serve as a study 
@@ -38,7 +38,38 @@ void feedback(int numCorrect, int numQuestions);
 void answer_by_type(Question ques[], int size, string chosenType);
 void read_file(string fileName, Question ques[], int capacity, int& size);
 void display(Question ques[], int size);
+bool type_related(string type_to_focus, string curr_type);
+void reorder(Question ques[], int size, int idx);
 
+bool type_related(string type_to_focus, string curr_type) {
+    int n;
+    string* focus_types = extract_type(type_to_focus, n);
+    for (int i = 0; i < n; i++) {
+        if (curr_type.find(focus_types[i]) != string::npos) {
+            delete[] focus_types;
+            return true;
+        }
+    }
+    delete[] focus_types;
+    return false;
+}
+
+void reorder(Question ques[], int size, int idx) {
+    string type_to_focus = ques[idx].type;
+    for (int i = idx + 1; i < size - 1; i++) {
+        for (int j = size - 1; j > i; j--) {
+            if (type_related(type_to_focus, ques[j].type) &&
+                !type_related(type_to_focus, ques[i].type)) {
+                Question temp = ques[i];
+                ques[i] = ques[j];
+                ques[j] = temp;
+                break;
+            }
+        }
+    }
+}
+
+#ifndef UNIT_TEST
 int main() {
     const int CAPACITY = 1000;
     Question ques[CAPACITY];
@@ -58,6 +89,7 @@ int main() {
 
     return 0;
 }
+#endif
 
 string trim(string str) {
     int firstChar = str.find_first_not_of(' ');

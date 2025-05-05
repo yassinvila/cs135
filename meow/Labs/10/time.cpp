@@ -9,6 +9,7 @@ Calculates minutes since midnight and interval between two times.
 meow
 meow
 meow
+meow
 */
 
 #include <iostream>
@@ -41,6 +42,7 @@ Time addMinutes(Time time0, int min);
 void printTimeSlot(TimeSlot ts);
 void printMovie(Movie mv);
 TimeSlot scheduleAfter(TimeSlot ts, Movie nextMovie);
+bool timeOverlap(TimeSlot ts1, TimeSlot ts2); 
 
 int main() {
     Time now;
@@ -115,3 +117,14 @@ TimeSlot scheduleAfter(TimeSlot ts, Movie nextMovie) {
     TimeSlot meow {nextMovie, endTime};
     return meow;
 }
+
+bool timeOverlap(TimeSlot ts1, TimeSlot ts2) {
+    int start1 = minutesSinceMidnight(ts1.startTime);
+    int end1 = start1 + ts1.movie.duration;
+
+    int start2 = minutesSinceMidnight(ts2.startTime);
+    int end2 = start2 + ts2.movie.duration;
+
+    return !(end1 <= start2 || end2 <= start1);
+}
+
