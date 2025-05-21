@@ -216,5 +216,27 @@ int Board::win(int bin) {
 }
 
 void Board::play() {
-    // Not implemented in Task B
+    display(); // Step 1: Show the empty grid at the beginning
+
+    int bin;
+    int player = 0;
+    int numAdded = 0;
+    int winner = -1;
+    int totalCapacity = numBins * capacity;
+
+    while (winner == -1 && numAdded < totalCapacity) {
+        bin = add(player);          // Step 2a: Player adds a shape
+        winner = win(bin);          // Step 2a: Check for a win
+        numAdded++;                 // Step 2a: Increment counter
+        display();                  // Step 2b: Show grid after move
+        player = 1 - player;        // Switch player (0 <-> 1)
+    }
+
+    // Step 3: End of game
+    if (winner == 0 || winner == 2)
+        cout << "winner: red" << endl;
+    else if (winner == 1 || winner == 3)
+        cout << "winner: blue" << endl;
+    else
+        cout << "a tie" << endl;
 }
